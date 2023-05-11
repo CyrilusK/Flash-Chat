@@ -21,7 +21,7 @@ class LoginViewController: UIViewController {
                     // Пользователь успешно вошел, перейдите на другой экран
                     self.emailTextfield.text = ""
                     self.passwordTextfield.text = ""
-                    self.performSegue(withIdentifier: "LoginToChat", sender: self)
+                    self.performSegue(withIdentifier: K.loginSegue, sender: self)
                 }
             }
         }

@@ -6,7 +6,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleLbl = "⚡️FlashChat"
+        let titleLbl = K.nameApp
         var indexTime = 0
         titleLabel.text = ""
         for it in titleLbl {
