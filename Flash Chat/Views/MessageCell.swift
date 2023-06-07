@@ -10,7 +10,7 @@ class MessageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        message.layer.cornerRadius = message.frame.height / 5
+        message.layer.cornerRadius = message.frame.size.height / 5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
