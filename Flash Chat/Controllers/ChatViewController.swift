@@ -22,7 +22,9 @@ class ChatViewController: UIViewController {
     }
     
     func loadMessage() -> Void {
-        db.collection(K.FStore.collectionName).addSnapshotListener { (querySnapshot, err) in
+        db.collection(K.FStore.collectionName)
+            .order(by: K.FStore.dateField)
+            .addSnapshotListener { (querySnapshot, err) in
             self.messages = []
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -34,7 +36,6 @@ class ChatViewController: UIViewController {
                             self.messages.append(Message(sender: sender, body: body))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
-                                print(self.messages)
                             }
                         }
                     }
@@ -46,7 +47,11 @@ class ChatViewController: UIViewController {
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
             //var message = Message(sender: messageSender, body: messageBody)
-            db.collection(K.FStore.collectionName).addDocument(data: [K.FStore.senderField : messageSender, K.FStore.bodyField : messageBody]) { err in
+            db.collection(K.FStore.collectionName).addDocument(data: [
+                K.FStore.senderField : messageSender,
+                K.FStore.bodyField : messageBody,
+                K.FStore.dateField : Date().timeIntervalSince1970
+            ]) { err in
                 if let err = err {
                     print("Error adding data: \(err)")
                 } else {
