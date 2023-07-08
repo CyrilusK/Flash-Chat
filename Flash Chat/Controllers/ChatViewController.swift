@@ -17,7 +17,6 @@ class ChatViewController: UIViewController {
         navigationItem.hidesBackButton = true
         title = K.nameApp
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
-        
         loadMessage()
     }
     
@@ -46,7 +45,6 @@ class ChatViewController: UIViewController {
     
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
-            //var message = Message(sender: messageSender, body: messageBody)
             db.collection(K.FStore.collectionName).addDocument(data: [
                 K.FStore.senderField : messageSender,
                 K.FStore.bodyField : messageBody,
