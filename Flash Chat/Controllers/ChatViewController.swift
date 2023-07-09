@@ -17,6 +17,7 @@ class ChatViewController: UIViewController {
         navigationItem.hidesBackButton = true
         title = K.nameApp
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+        tableView.isUserInteractionEnabled = true
         loadMessage()
     }
     
@@ -44,7 +45,7 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
-        if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
+        if let messageBody = messageTextfield.text, !messageBody.isEmpty, let messageSender = Auth.auth().currentUser?.email {
             db.collection(K.FStore.collectionName).addDocument(data: [
                 K.FStore.senderField : messageSender,
                 K.FStore.bodyField : messageBody,
@@ -54,9 +55,12 @@ class ChatViewController: UIViewController {
                     print("Error adding data: \(err)")
                 } else {
                     print("Data added successfully")
+                    self.messageTextfield.text = ""
+                    self.messageTextfield.endEditing(true)
                 }
             }
         }
+        
     }
     
     @IBAction func LogOutPressed(_ sender: UIBarButtonItem) {
@@ -85,7 +89,12 @@ extension ChatViewController: UITableViewDataSource {
 
 extension ChatViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
-        return true
+        if messageTextfield.text != "" {
+            textField.endEditing(true)
+            sendPressed(UIButton())
+            messageTextfield.text = ""
+            return true
+        }
+        return false
     }
 }
