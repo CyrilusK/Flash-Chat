@@ -15,7 +15,6 @@ class ChatViewController: UIViewController {
         messageTextfield.delegate = self
         tableView.dataSource = self
         navigationItem.hidesBackButton = true
-//        title = K.nameApp
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
         tableView.isUserInteractionEnabled = true
         loadMessage()
